@@ -21,7 +21,7 @@ export default class NavBar extends Component {
                                 <Nav.Link as={Link} to="/example">Example</Nav.Link>
                                 <Nav.Link as={Link} to="/functionalexample">Func Ex</Nav.Link>
                                 <Nav.Link as={Link} to="/ergastfunc">Func Ergast</Nav.Link>
-                                <Nav.Link as={Link} to="./auth/login">Social Media</Nav.Link>
+                                <Nav.Link href="/auth/login">Social Media</Nav.Link>
 
                                 <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
                                 {/* admin dropdown area */}
