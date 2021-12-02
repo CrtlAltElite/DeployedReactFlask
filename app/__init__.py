@@ -1,10 +1,10 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from config import Config 
 from flask_login import LoginManager #to log users in and out and maintain the session
 from flask_sqlalchemy import SQLAlchemy #this talk to the database
 from flask_migrate import Migrate #this makes altering the db a lot easier
 from flask_moment import Moment 
-from flask_cors import CORS
+# from flask_cors import CORS
 
 
 # app instaniation
@@ -20,17 +20,25 @@ login.login_view = 'auth.login'
 db = SQLAlchemy()
 migrate = Migrate()
 moment = Moment()
-cors = CORS()
+# cors = CORS()
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="../client/build", static_url_path='')
     app.config.from_object(config_class)
     #register plugins
     login.init_app(app)    
     db.init_app(app)
     migrate.init_app(app,db)
     moment.init_app(app)
-    cors.init_app(app)
+    # cors.init_app(app)
+
+    @app.route('/')
+    def serve():
+        return send_from_directory(app.static_folder,'index.html')
+
+    @app.errorhandler(404)
+    def not_found(e):
+        return app.send_static_file('index.html')
 
     # Register our blueprints with the app
     from .blueprints.main import bp as main_bp
